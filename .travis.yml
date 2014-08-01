@@ -6,8 +6,6 @@ rvm:
   - 1.9.3
   - 2.1.2
   - ruby-head
-  - jruby-19mode
-  - jruby-head
   - rbx-2
 matrix:
   include:
@@ -17,5 +15,6 @@ matrix:
       env: JRUBY_OPTS="$JRUBY_OPTS --debug"
   allow_failures:
     - rvm: ruby-head
+    - rvm: jruby-head
 notifications:
   email: false
