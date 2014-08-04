@@ -12,7 +12,7 @@ describe Orc::Result do
       expect(subject.success?).to be(true)
     end
 
-    it 'returns :success state' do
+    it 'returns :success status' do
       expect(subject.status).to be(:success)
     end
 
@@ -31,11 +31,11 @@ describe Orc::Result do
       expect(subject.success?).to be(false)
     end
 
-    it 'returns :success state' do
+    it 'exposes the given #status' do
       expect(subject.status).to be(status)
     end
 
-    it 'exposes the associated context' do
+    it 'exposes the associated #context' do
       expect(subject.context).to be(context)
     end
   end
