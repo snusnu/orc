@@ -37,21 +37,37 @@ describe Orc::Result do
   end
 
   describe '.failure' do
-    subject { Orc::Result.failure(status, context) }
+    shared_context 'a failure result' do
+      let(:status) { :confused }
+      let(:object) { :context }
 
-    let(:status)  { :confused }
-    let(:context) { :context }
+      it 'signals failure' do
+        expect(subject.success?).to be(false)
+      end
 
-    it 'signals failure' do
-      expect(subject.success?).to be(false)
+      it 'exposes the associated #object' do
+        expect(subject.object).to be(object)
+      end
     end
 
-    it 'exposes the given #status' do
-      expect(subject.status).to be(status)
+    context 'when no status is given' do
+      subject { Orc::Result.failure(object) }
+
+      include_context 'a failure result'
+
+      it 'exposes a :failure status' do
+        expect(subject.status).to be(:failure)
+      end
     end
 
-    it 'exposes the associated #context' do
-      expect(subject.context).to be(context)
+    context 'when status is given' do
+      subject { Orc::Result.failure(object, status) }
+
+      include_context 'a failure result'
+
+      it 'exposes the given #status' do
+        expect(subject.status).to be(status)
+      end
     end
   end
 end

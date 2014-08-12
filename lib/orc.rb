@@ -21,15 +21,15 @@ module Orc
 
     # Create a result indicating failure
     #
-    # @param [Object] status
-    #   an arbitrary status description (symbol)
-    #
-    # @param [Object] context
+    # @param [Object] object
     #   context information associated with the failure
     #
+    # @param [Object] status
+    #   an optional, arbitrary status description (symbol)
+    #
     # @return [Success]
-    def self.failure(status, context)
-      Failure.new(status, context)
+    def self.failure(object, status = :failure)
+      Failure.new(object, status)
     end
 
     include AbstractType
@@ -58,7 +58,7 @@ module Orc
 
     # Result object indicating failure along with status and context
     class Failure < self
-      include Concord::Public.new(:status, :context)
+      include Concord::Public.new(:object, :status)
 
       # Indicate success
       #
