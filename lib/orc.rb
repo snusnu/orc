@@ -37,6 +37,11 @@ module Orc
     abstract_method :success?
     abstract_method :status
 
+    attr_reader :object
+
+    alias_method :output, :object
+    alias_method :data,   :object
+
     # Result object indicating success along with associated data
     class Success < self
       include Concord::Public.new(:object)
