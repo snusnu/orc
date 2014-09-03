@@ -15,8 +15,8 @@ module Orc
     #   arbitrary data associated with the result
     #
     # @return [Success]
-    def self.success(object)
-      Success.new(object)
+    def self.success(object, status = :success)
+      Success.new(object, status)
     end
 
     # Create a result indicating failure
@@ -32,19 +32,24 @@ module Orc
       Failure.new(object, status)
     end
 
+    include Concord::Public.new(:object, :status)
     include AbstractType
 
     abstract_method :success?
-    abstract_method :status
-
-    attr_reader :object
 
     alias_method :output, :object
     alias_method :data,   :object
 
+    def failure?
+      !success?
+    end
+
+    def update
+      self.class.new(yield(object), status)
+    end
+
     # Result object indicating success along with associated data
     class Success < self
-      include Concord::Public.new(:object)
 
       # Indicate success
       #
@@ -52,18 +57,10 @@ module Orc
       def success?
         true
       end
-
-      # Status description
-      #
-      # @return [:success]
-      def status
-        :success
-      end
     end # Success
 
     # Result object indicating failure along with status and context
     class Failure < self
-      include Concord::Public.new(:object, :status)
 
       # Indicate success
       #
